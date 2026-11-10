@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desktop-Uhr – Uhrzeit &amp; Datum direkt auf dem Windows-Desktop</title>
+<meta name="description" content="Kostenlose Desktop-Uhr für Windows 10 und 11: Wochentag, Uhrzeit und Datum transparent auf dem Desktop. Jedes Zeichen einzeln verschiebbar und entfernbar.">
+<style>
+  :root {
+    --bg: #0d1220;
+    --panel: #151c2e;
+    --line: #26304a;
+    --text: #e9edf5;
+    --muted: #9aa5bd;
+    --accent: #6fb6ff;
+    --warm: #f0c86e;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  header.hero {
+    background:
+      radial-gradient(1200px 500px at 15% -10%, rgba(111,182,255,.25), transparent 60%),
+      radial-gradient(900px 500px at 100% 10%, rgba(240,140,100,.22), transparent 60%),
+      var(--bg);
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow {
+    letter-spacing: .35em; text-transform: uppercase; font-size: 13px;
+    color: var(--warm); margin: 0 0 12px;
+  }
+  h1 {
+    font-weight: 300; font-size: clamp(40px, 7vw, 76px); line-height: 1.02;
+    margin: 0 0 18px; letter-spacing: -.01em;
+  }
+  .lead { font-size: 19px; color: var(--muted); max-width: 640px; margin: 0 0 30px; }
+  .btns { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 24px; border-radius: 10px; text-decoration: none;
+    font-weight: 600; font-size: 16px;
+  }
+  .btn.primary { background: var(--accent); color: #0b1424; }
+  .btn.primary:hover { background: #8cc6ff; }
+  .btn.ghost { border: 1px solid var(--line); color: var(--text); }
+  .btn.ghost:hover { border-color: var(--muted); }
+  .meta { color: var(--muted); font-size: 14px; margin-top: 14px; }
+  .shot {
+    margin-top: 44px; border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(0,0,0,.45);
+  }
+  .shot img { display: block; width: 100%; height: auto; }
+
+  section { padding: 64px 0; border-bottom: 1px solid var(--line); }
+  h2 { font-weight: 400; font-size: 32px; margin: 0 0 8px; }
+  .sub { color: var(--muted); margin: 0 0 32px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+  .card h3 { margin: 0 0 6px; font-size: 17px; font-weight: 600; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  ol.steps li {
+    counter-increment: s; position: relative; padding: 18px 20px 18px 70px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  }
+  ol.steps li::before {
+    content: counter(s); position: absolute; left: 20px; top: 16px;
+    width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(111,182,255,.15); color: var(--accent); font-weight: 700;
+  }
+  kbd {
+    font-family: inherit; font-size: 13px; background: #222b42; border: 1px solid #34405e;
+    border-bottom-width: 2px; border-radius: 5px; padding: 1px 7px; white-space: nowrap;
+  }
+  code { background: #1d2538; padding: 1px 6px; border-radius: 4px; font-size: 14px; }
+
+  .split { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: center; }
+  @media (max-width: 820px) { .split { grid-template-columns: 1fr; } }
+  .split img { width: 100%; border-radius: 12px; border: 1px solid var(--line); }
+  table.keys { width: 100%; border-collapse: collapse; font-size: 15px; }
+  table.keys td { padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.keys td:first-child { width: 46%; padding-right: 14px; }
+
+  details { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; }
+  summary { cursor: pointer; font-weight: 600; }
+  details p { color: var(--muted); margin: 10px 0 0; }
+
+  footer { padding: 36px 0 56px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Kostenlos · Windows 10 &amp; 11</p>
+    <h1>Desktop-Uhr</h1>
+    <p class="lead">Wochentag, Uhrzeit und Datum schön und durchsichtig direkt auf deinem Desktop, so wie mit Rainmeter, nur ohne Rainmeter. Jeder Buchstabe und jede Zahl lässt sich einzeln verschieben oder entfernen.</p>
+    <div class="btns">
+      <a class="btn primary" href="DesktopUhr.zip" download>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        Herunterladen
+      </a>
+      <a class="btn ghost" href="#installieren">So installierst du sie</a>
+    </div>
+    <p class="meta">ZIP-Datei · ca. 12 KB · keine Installation nötig · keine .exe</p>
+    <div class="shot"><img src="bilder/vorschau.jpg" alt="Beispiele der Desktop-Uhr in verschiedenen Farben und Größen auf einem Hintergrundbild"></div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Was sie kann</h2>
+    <p class="sub">Alles über einen Rechtsklick auf die Uhr oder auf das Uhr-Symbol im Infobereich der Taskleiste.</p>
+    <div class="grid">
+      <div class="card"><h3>Liegt auf dem Desktop</h3><p>Bleibt hinter deinen Fenstern, wie ein Teil des Hintergrunds. Auf Wunsch auch normal oder immer im Vordergrund.</p></div>
+      <div class="card"><h3>Jedes Zeichen einzeln</h3><p>Im Bearbeiten-Modus jeden Buchstaben und jede Ziffer verschieben oder entfernen, auch ganze Teile wie den Monat.</p></div>
+      <div class="card"><h3>Größe &amp; Farbe</h3><p>Vier Größen, sechs Farben, Deckkraft, Ausrichtung, Schatten, Sekunden und Wochentag ein- oder ausblenden.</p></div>
+      <div class="card"><h3>Merkt sich alles</h3><p>Position und Einstellungen bleiben gespeichert. Startet auf Wunsch automatisch mit Windows.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="installieren">
+  <div class="wrap">
+    <h2>Installieren</h2>
+    <p class="sub">Dauert keine Minute.</p>
+    <ol class="steps">
+      <li><strong>ZIP herunterladen</strong> über den Knopf oben.</li>
+      <li><strong>Entpacken:</strong> Rechtsklick auf die ZIP-Datei, dann „Alle extrahieren…“. Den Ordner <code>DesktopUhr</code> am besten nach <em>Dokumente</em> legen und dort lassen.</li>
+      <li><strong>Starten:</strong> Im Ordner <code>Desktop-Uhr starten.cmd</code> doppelklicken. Kurz blitzt ein schwarzes Fenster auf, dann erscheint die Uhr oben rechts.</li>
+      <li><strong>Mit Windows starten</strong> (optional): Rechtsklick auf die Uhr, dann Haken bei „Mit Windows starten“ setzen.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap split">
+    <div>
+      <h2>Bearbeiten-Modus</h2>
+      <p class="sub">Rechtsklick auf die Uhr, dann „Bearbeiten-Modus“. Entfernte Zeichen sind dort blass zu sehen und lassen sich wiederherstellen.</p>
+      <table class="keys">
+        <tr><td>Zeichen ziehen</td><td>einzelnen Buchstaben oder einzelne Zahl verschieben</td></tr>
+        <tr><td><kbd>Strg</kbd> + ziehen</td><td>ganzen Teil verschieben (Wochentag, Uhrzeit, Tag, Monat, Jahr)</td></tr>
+        <tr><td>Anklicken + <kbd>Entf</kbd></td><td>Zeichen entfernen</td></tr>
+        <tr><td><kbd>Strg</kbd> + <kbd>Entf</kbd></td><td>ganzen Teil entfernen</td></tr>
+        <tr><td>Pfeiltasten (mit <kbd>Shift</kbd>)</td><td>pixelgenau schieben (in 10er-Schritten)</td></tr>
+        <tr><td>Rechtsklick auf ein Zeichen</td><td>entfernen, wiederherstellen, Position zurücksetzen</td></tr>
+        <tr><td><kbd>Strg</kbd> + <kbd>Z</kbd></td><td>rückgängig</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>Bearbeiten beenden</td></tr>
+      </table>
+    </div>
+    <img src="bilder/bearbeiten.jpg" alt="Bearbeiten-Modus: ein ausgewähltes Zeichen ist blau markiert, entfernte Buchstaben sind blass sichtbar">
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Häufige Fragen</h2>
+    <p class="sub">&nbsp;</p>
+    <details>
+      <summary>Warum ist das ein Skript und keine .exe?</summary>
+      <p>Eine selbst gebaute .exe ohne teure Signatur wird von Virenscannern oft fälschlich in Quarantäne geschoben. Die Uhr ist deshalb ein lesbares PowerShell-Skript, das Windows mit seinen eigenen Bordmitteln ausführt. Den kompletten Quellcode findest du im <a href="https://github.com/obimokenobix/desktop-uhr">GitHub-Repository</a>.</p>
+    </details>
+    <details>
+      <summary>Ich sehe die Uhr nach dem Start nicht.</summary>
+      <p>Rechtsklick auf das Uhr-Symbol im Infobereich der Taskleiste (unten rechts, eventuell hinter dem kleinen Pfeil), dann „Ebene“ auf „Normal“ stellen oder „Position zurücksetzen“ wählen.</p>
+    </details>
+    <details>
+      <summary>Wie werde ich sie wieder los?</summary>
+      <p>Rechtsklick auf die Uhr, Haken bei „Mit Windows starten“ entfernen, dann „Beenden“. Danach den Ordner <code>DesktopUhr</code> löschen. Die Einstellungen liegen in <code>%APPDATA%\DesktopUhr</code> und können ebenfalls gelöscht werden.</p>
+    </details>
+    <details>
+      <summary>Was brauche ich dafür?</summary>
+      <p>Nur Windows 10 oder 11. PowerShell und .NET sind dort schon dabei, es muss nichts zusätzlich installiert werden.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Desktop-Uhr · kostenlos · <a href="https://github.com/obimokenobix/desktop-uhr">Quellcode auf GitHub</a></div>
+</footer>
+
+</body>
+</html>
